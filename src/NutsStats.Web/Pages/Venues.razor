@@ -1,0 +1,70 @@
+@page "/venues"
+@using NutsStats.Application
+@using NutsStats.Web.Services
+@inject IVenueApiClient VenueApiClient
+
+<PageTitle>Venues</PageTitle>
+
+<h1>Venues</h1>
+
+@if (isLoading)
+{
+    <p><em>Loading venues...</em></p>
+}
+else if (!string.IsNullOrWhiteSpace(errorMessage))
+{
+    <div class="alert alert-danger">@errorMessage</div>
+}
+else if (venues.Count == 0)
+{
+    <p>No venues were returned by the API yet.</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Venue</th>
+                <th>Venue Id</th>
+                <th>Events</th>
+                <th>Created</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var venue in venues)
+            {
+                <tr>
+                    <td>@venue.VenueName</td>
+                    <td>@venue.VenueId</td>
+                    <td>@venue.EventCount</td>
+                    <td>@venue.CreatedAt.ToLocalTime().ToString("yyyy-MM-dd")</td>
+                    <td><a href="@($"/venue/{venue.Id}")">Details</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<VenueSummaryDto> venues = [];
+    private bool isLoading = true;
+    private string? errorMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            venues = (await VenueApiClient.GetVenuesAsync()).ToList();
+            errorMessage = VenueApiClient.LastError;
+        }
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message;
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+}

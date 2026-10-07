@@ -1,0 +1,6 @@
+@NutsStats.Api_HostAddress = http://localhost:5162
+
+GET {{NutsStats.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

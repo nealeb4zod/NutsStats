@@ -1,0 +1,88 @@
+@page "/venue/{Id:int}"
+@using NutsStats.Application
+@using NutsStats.Web.Services
+@inject IVenueApiClient VenueApiClient
+
+<PageTitle>@(venue?.VenueName ?? "Venue")</PageTitle>
+
+@if (isLoading)
+{
+    <p><em>Loading venue...</em></p>
+}
+else if (!string.IsNullOrWhiteSpace(errorMessage))
+{
+    <div class="alert alert-danger">@errorMessage</div>
+}
+else if (venue is null)
+{
+    <p>Venue not found.</p>
+}
+else
+{
+    <h1>@venue.VenueName</h1>
+
+    <dl class="row">
+        <dt class="col-sm-3">Venue Id</dt>
+        <dd class="col-sm-9">@venue.VenueId</dd>
+
+        <dt class="col-sm-3">Created</dt>
+        <dd class="col-sm-9">@venue.CreatedAt.ToLocalTime().ToString("yyyy-MM-dd")</dd>
+    </dl>
+
+    <h2>Events</h2>
+
+    @if (venue.Events.Count == 0)
+    {
+        <p>No events have been recorded for this venue yet.</p>
+    }
+    else
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Event Id</th>
+                    <th>Event URL</th>
+                    <th>Date</th>
+                    <th>Results</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var eventItem in venue.Events)
+                {
+                    <tr>
+                        <td>@eventItem.EventId</td>
+                        <td><a href="@eventItem.EventUrl" target="_blank" rel="noopener noreferrer">Open</a></td>
+                        <td>@(eventItem.Date?.ToString("yyyy-MM-dd") ?? "—")</td>
+                        <td>@eventItem.ResultCount</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+}
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private VenueDetailDto? venue;
+    private bool isLoading = true;
+    private string? errorMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            venue = await VenueApiClient.GetVenueByIdAsync(Id);
+            errorMessage = VenueApiClient.LastError;
+        }
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message;
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+}

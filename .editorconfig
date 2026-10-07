@@ -1,0 +1,34 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = crlf
+insert_final_newline = true
+indent_style = space
+indent_size = 4
+trim_trailing_whitespace = true
+
+[*.{cs,csx,vb,vbx}]
+# .NET code style
+dotnet_sort_system_directives_first = true
+dotnet_style_prefer_integral_digit_separator = true
+
+# Nullable and warnings
+dotnet_diagnostic.CS8600.severity = warning
+dotnet_diagnostic.CS8602.severity = warning
+dotnet_diagnostic.CS8603.severity = warning
+dotnet_diagnostic.CS8618.severity = warning
+dotnet_diagnostic.CS8625.severity = warning
+
+# C# naming and style
+csharp_style_var_when_type_is_obvious = true
+csharp_style_expression_bodied_methods = true
+csharp_style_expression_bodied_properties = true
+csharp_style_expression_bodied_operators = true
+csharp_style_prefer_simple_using_statement = true
+
+[*.{json,yml,yaml}]
+indent_size = 2
+
+[*.md]
+trim_trailing_whitespace = false

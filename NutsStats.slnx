@@ -1,0 +1,14 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/NutsStats.Api/NutsStats.Api.csproj" />
+    <Project Path="src/NutsStats.Application/NutsStats.Application.csproj" />
+    <Project Path="src/NutsStats.Domain/NutsStats.Domain.csproj" />
+    <Project Path="src/NutsStats.Infrastructure/NutsStats.Infrastructure.csproj" />
+    <Project Path="src/NutsStats.Scraper/NutsStats.Scraper.csproj" />
+    <Project Path="src/NutsStats.Web/NutsStats.Web.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/NutsStats.IntegrationTests/NutsStats.IntegrationTests.csproj" />
+    <Project Path="tests/NutsStats.UnitTests/NutsStats.UnitTests.csproj" />
+  </Folder>
+</Solution>
