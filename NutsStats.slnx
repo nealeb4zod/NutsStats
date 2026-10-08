@@ -1,4 +1,7 @@
 <Solution>
+  <Folder Name="/SolutionItems/">
+    <File Path="README.md" />
+  </Folder>
   <Folder Name="/src/">
     <Project Path="src/NutsStats.Api/NutsStats.Api.csproj" />
     <Project Path="src/NutsStats.Application/NutsStats.Application.csproj" />
